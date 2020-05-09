@@ -9,12 +9,12 @@ const App = () => {
   const minusFn = () => setState((state) => ({ value: state.value - 3 }));
 
   return (
-    <>
+    <div>
       Count by useState: {state.value}
       <br />
       <button onClick={plusFn}>plus 5</button>
       <button onClick={minusFn}>minus 3</button>
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState }  from 'react';
 import ReactDOM from 'react-dom';
 
 const App = () => {
@@ -14,7 +14,14 @@ const App = () => {
       console.log(`cancel timer`);
     };
   });
-
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setCount(c => c + 1)
+  //   }, 1000)
+  //   return () => {
+  //     clearInterval(timer)
+  //   }
+  // }, [])
   return (
     <div>
       <p>You clicked {count} times</p>
