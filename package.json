@@ -1,0 +1,11 @@
+{
+  "name": "learning-for-all",
+  "version": "1.0.0",
+  "description": "all for learning",
+  "main": "index.js",
+  "author": "liuchang",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^1.12.4"
+  }
+}
