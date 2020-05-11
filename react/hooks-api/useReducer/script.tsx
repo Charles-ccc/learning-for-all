@@ -1,27 +1,47 @@
 import * as React from 'react'
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import ReactDOM from 'react-dom'
 
+const initialState = {
+  count: 0,
+  step: 1
+}
+
 const reducer = (state, action) => {
-  const { value } = state
-  switch(action.type) {
-    case 'plus':
-      return {value: value + action.payload}
-    case 'minus':
-      return {value: value - action.payload}
+  const { count, step } = state
+  switch (action.type) {
+    case 'tick':
+      return {count: count + step, step}
+    case 'step':
+      return {count, step: action.step}
   }
 }
 
 const App = () => {
-  const initalvalue = { value: 0 }
-  const [state, dispatch] = useReducer(reducer, initalvalue)
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      dispatch({type: 'tick'})
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [dispatch])
+
+  const {count, step} = state
   return (
     <div>
-      Count by useReducer: {state.value}
-      <br />
-      <button onClick={() => dispatch({type: 'plus', payload: 5})}>plus 5</button>
-      <button onClick={() => dispatch({type: 'minus', payload: 2})}>minus 2</button>
+      <h1>{count}</h1>
+      <input 
+        value={step}
+        onChange={e => {
+          dispatch({
+            type: 'step',
+            step: Number(e.target.value)
+          })
+        }}
+      />
     </div>
   )
 }
-ReactDOM.render(<App />, document.querySelector('#app'))
+
+ReactDOM.render(<App />, document.getElementById('app'))
