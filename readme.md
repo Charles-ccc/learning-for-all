@@ -1,5 +1,3 @@
 ### Learning-for-all
 
-include leetcode and react-hooks now
-
-hello
+include leetcode and react now
