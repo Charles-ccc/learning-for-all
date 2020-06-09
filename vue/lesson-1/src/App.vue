@@ -8,6 +8,17 @@
   </div>
 </template>
 
+<script>
+// import HelloWorld from "./components/HelloWorld.vue"
+// import SlotsTest from "./components/slots"
+// import Recursion from "./components/recursion"
+// import FormSample from "./components/form"
+// import Tree from "./components/tree"
+export default {
+  name: "app"
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
