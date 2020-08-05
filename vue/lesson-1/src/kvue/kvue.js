@@ -1,16 +1,33 @@
 class KVue {
   constructor(options) {
+    // options 就是平常用的data，components，methods
     this.options = options
     this.$data = options.data
     // 响应化
     this.observe(this.$data)
+
+
+    // 重新定义数组原型
+    const oldArrayProperty = Array.prototype
+    // 创建新对象，原型指向 oldArrayProperty ，再扩展新的方法不会影响原型
+    const arrProto = Object.create(oldArrayProperty)
+    ['push', 'pop', 'shift', 'unshift', 'splice'].forEach(methodName => {
+      arrProto[methodName] = function () {
+        update() // 触发试图更新
+        oldArrayProperty[methodName].call(this, ...arguments)
+      }
+    })
   }
 
   // 递归遍历，使传递进来的对象响应化
+  // 数据劫持
   observe(value) {
-    if (!value || typeof value !== 'object') return
+    if (!value || typeof value !== 'object') return value
 
-    // 编辑对象
+    if (Array.isArray(value)) {
+      target.__proto__ = arrProto
+    }
+    // 遍历对象
     Object.keys(value).forEach(key => {
       // 对 key 做响应式处理
       this.defineReactive(value, key, value[key])
@@ -18,19 +35,7 @@ class KVue {
     })
   }
 
-  // 在Vue根上定义属性代理data中的数据，使之能够直接访问
-  proxyData(key) {
-    Object.defineProperty(this, key, {
-      get() {
-        return this.$data[key]
-      },
-      set(newVal) {
-        this.$data[key] = newVal
-      }
-    })
-  }
-
-
+  // 数据响应
   defineReactive(obj, key, value) {
     // 创建Dep实例: Dep和key是一一对应的
     const dep = new Dep()
@@ -51,6 +56,18 @@ class KVue {
           dep.notify()
           // console.log(`set中-> ${key}属性更新`)
         }
+      }
+    })
+  }
+  
+  // 在Vue根上定义属性代理data中的数据，使之能够直接访问
+  proxyData(key) {
+    Object.defineProperty(this, key, {
+      get() {
+        return this.$data[key]
+      },
+      set(newVal) {
+        this.$data[key] = newVal
       }
     })
   }
