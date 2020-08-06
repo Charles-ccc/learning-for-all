@@ -17,7 +17,6 @@ function createElement (tag, data, children = null) {
   // 定义tag类型
   let flag
   if (typeof tag === 'string') {
-    // 普通的html标签
     flag = vnodeType.HTML
   } else if (typeof tag === 'function') {
     flag = vnodeType.COMPONENT
@@ -77,16 +76,17 @@ function render (vnode, container) {
   container.vnode = vnode
 }
 
+// 旧值，新值，容器
 function patch(prev, next, container) {
   const prevFlag = prev.flag
   const nextFlag = next.flag
-  // 同diff算法，节点不一样就直接替换
+  // 同diff算法，节点类型不一样就直接替换
   if (prevFlag !== nextFlag) {
     replaceVnode(prev, next, container)
   } else if (nextFlag === vnodeType.HTML) {
     patchElement(prev, next, container)
   } else if (nextFlag === vnodeType.TEXT) {
-    patchtext(prev, next)
+    patchText(prev, next)
   }
 }
 
@@ -101,6 +101,7 @@ function patchElement (prev, next, container) {
     return
   }
 
+  // 更新data属性
   const el = (next.el = prev.el)
   const prevData = prev.data
   const nextData = next.data
@@ -112,7 +113,7 @@ function patchElement (prev, next, container) {
       patchData(el, key, prevVal, nextVal)
     }
   }
-  // 删除
+  // 删除，旧值里有但新值没有
   if (prevData) {
     for (let key in prevData) {
       const prevVal = prevData[key]
@@ -121,7 +122,7 @@ function patchElement (prev, next, container) {
       }
     }
   }
-  // data更新完毕， 更新子元素
+  // data属性更新完毕， 更新子元素
   patchChildren (
     prev.childrenFlag,
     next.childrenFlag,
@@ -131,21 +132,73 @@ function patchElement (prev, next, container) {
   )
 }
 
-// 更新子元素
+// 更新子元素, diff
 function patchChildren (
-  prevChildrenFlag,
-  nextChildrenFlag,
+  prevChildFlag,
+  nextChildFlag,
   prevChildren,
   nextChildren,
   container,
 ) {
-  // TODO
+  // 旧值分为 空值，单个，多个
+  // 新值分为 空值，单个，多个
+  // 共九种情况进行处理
+  switch(prevChildFlag) {
+    case childType.SINGLE:
+      switch(nextChildFlag){
+        case childType.SINGLE:
+          patch(prevChildren, nextChildren, container)
+          break
+        case childType.EMPTY:
+          container.removeChild(prevChildren.el)
+          break
+        case childType.MULTIPLE:
+          container.removeChild(prevChildren.el)
+          for(let i=0; i<nextChildren.length; i++) {
+            mount(nextChildren[i], container)
+          }
+          break
+      }
+      break
+    case childType.EMPTY:
+      switch(nextChildFlag){
+        case childType.SINGLE:
+          mount(nextChildren, container)
+          break
+        case childType.EMPTY:
+          break
+        case childType.MULTIPLE:
+          for(let i=0; i<nextChildren.length; i++) {
+            mount(nextChildren[i], container)
+          }
+          break
+      }
+      break
+    case childType.MULTIPLE:
+      switch(nextChildFlag){
+        case childType.SINGLE:
+          for(let i=0; i<prevChildren.length; i++) {
+            container.removeChild(prevChildren[i].el)
+          }
+          mount(nextChildren, container)
+          break
+        case childType.EMPTY:
+          for(let i=0; i<prevChildren.length; i++) {
+            container.removeChild(prevChildren[i].el)
+          }
+          break
+        case childType.MULTIPLE:
+          // 旧值和新值均为数组
+          break
+      }
+      break
+  }
 }
 
-function patchtext(prev, next) {
+function patchText(prev, next) {
   const el = (next.el = prev.el)
   if (next.children !== prev.children) {
-    // 设置节点值
+    // 设置节点新值
     el.nodeValue = next.children
   }
 }
@@ -196,7 +249,6 @@ function mountText (vnode, container) {
 
 // 挂载属性
 function patchData (el, key, prev, next) {
-  // console.log('next===>', next)
   switch(key) {
     case 'style':
       for(let k in next) {
