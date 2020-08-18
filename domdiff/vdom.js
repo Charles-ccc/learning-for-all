@@ -189,6 +189,7 @@ function patchChildren (
           break
         case childType.MULTIPLE:
           // 旧值和新值均为数组
+          console.log('新老数组')
           break
       }
       break

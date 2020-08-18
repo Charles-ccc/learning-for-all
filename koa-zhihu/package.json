@@ -1,0 +1,21 @@
+{
+  "name": "zhihu-api",
+  "version": "1.0.0",
+  "description": "Zhihu RESTful API",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "restful"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "koa-router": "^9.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
