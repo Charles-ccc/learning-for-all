@@ -4,7 +4,7 @@
   "description": "Zhihu RESTful API",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon app"
   },
   "keywords": [
     "restful"
@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
     "koa-router": "^9.4.0"
   },
   "devDependencies": {
