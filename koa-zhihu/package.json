@@ -4,7 +4,8 @@
   "description": "Zhihu RESTful API",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app"
+    "dev": "nodemon app",
+    "start": "NODE_ENV=production node app"
   },
   "keywords": [
     "restful"
@@ -14,6 +15,8 @@
   "dependencies": {
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
+    "koa-json-error": "^3.1.2",
+    "koa-parameter": "^3.0.1",
     "koa-router": "^9.4.0"
   },
   "devDependencies": {
