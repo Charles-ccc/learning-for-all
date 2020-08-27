@@ -74,3 +74,43 @@
     3. 添加数据库用户
     4. 设置IP地址白名单
     5. 获取连接地址
+
+#### session
+  工作原理
+    1. 客户端发送用户名和密码到服务端，服务端生成身份认证的session数据，然后保存在内存或内存数据库中。
+    2. 服务端返回sessionId，然后通过设置响应头Set-Cookie: session[sessionId]。客户端将sessionId存在cookie中。
+    3. 之后客户端发送的所有请求都会附带该sessionId，并设置请求头Cookie: session=[sessionId]。服务端就会通过sessionId来查询并解析session数据，这样服务端就知道是否登录，是否有权限等。
+    4. 如果解析session数据后通过了校验，就会正常返回接口数据了。否则就需要提示重新登录或没权限等。
+
+  客户端可以通过清除cookie来退出登录，服务端可以清除session来强制退出登录
+  JWT 将token保存在客户端，只要未过期，就可以长期使用
+
+  优势
+    1. 相比JWT，最大优势在于可以主动清除session
+    2. session保存在服务端，相对更安全
+    3. 结合cookie使用，较为灵活，兼容性较好
+
+  劣势
+    1. cookie + session 在跨域场景表现并不好。cookie具有不可跨域性，设置cookie时，除了设置sessionId，还会设置cookie生效的域名
+    2. 如果是分布式部署，需要做多机共享session机制
+    3. 基于cookie的机制很容易被CSRF
+    4. 查询session信息可能会有数据库查询操作
+    
+#### JWT (JSON Web Token)
+  定义了一种紧凑且独立的方式，可以将各方之间的信息作为JSON对象进行安全传输
+  该信息可以验证和信任，因为是经过数字签名的
+
+  工作原理
+    与session类似，不同的是服务端响应头返回token: [JWT]给客户端，客户端发送请求时，在请求头设置Authorization: Bearer[JWT]。
+    
+  由三部分构成，使用Base64编码 - 头部(header).有效载荷(payload).签名(signature)
+  Header
+    1. typ： token的类型，固定为JWT
+    2. alg： 使用的hash算法，例如：HMAC SHA256、RSA
+  Payload
+    1. 存储需要传递的信息，如用户ID，用户名等
+    2. 包含元数据，如过期时间，发布人等
+    3. 可以加密
+  Signature
+    1. 对Header 和 Payload部分进行签名
+    2. 保证Token在传输过程中没有被篡改或者损坏
