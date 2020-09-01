@@ -3,6 +3,7 @@ const Koa = require('koa')
 const KoaBody = require('koa-body')
 const Error = require('koa-json-error') // 错误处理中间件
 const Parameter = require('koa-parameter') // 参数校验
+const KoaStatic = require('koa-static')
 const Mongoose = require('mongoose')
 const path = require('path')
 const app = new Koa()
@@ -28,6 +29,7 @@ Mongoose.connection.on('error', console.error)
 //   }
 // })
 
+app.use(KoaStatic(path.join(__dirname, 'public')))
 app.use(Error({
   postFormat: (e, {stack, ...rest}) => {
     // 生产环境则不返回错误的堆栈信息
