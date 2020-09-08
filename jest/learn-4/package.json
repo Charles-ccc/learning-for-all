@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
-    "prettier": "^1.8.2"
+    "jquery": "^3.5.1",
+    "prettier": "^1.8.2",
+    "save": "^2.4.0"
   }
 }
