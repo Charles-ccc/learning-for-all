@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../learn-4/node_modules/axios'
 
 export const fetchData = () => {
   return axios.get('/').then(res => res.data)
