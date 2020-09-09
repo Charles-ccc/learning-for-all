@@ -33,3 +33,62 @@ afterEach()
  results（被调用次数以及每次返回的结果）
  instances（被调用次数以及每次调用时this的指向）
  invocationCallOrder（函数有可能被多次传入相同/不同的方法中，表示它执行顺序）
+
+
+#### TDD
+  test driven development  测试驱动的开发
+
+  开发流程
+    1. 编写测试用例
+    2. 运行测试，测试用例无法通过测试
+    3. 编写代码，使测试用例通过测试
+    4. 优化代码，完成开发
+    5. 重复上述步骤
+  优势
+    1. 长期减少回归bug
+    2. 代码质量更好（组织，可维护性）
+    3. 测试覆盖率高
+    4. 错误测试代码不容易出现
+
+```
+module.exports = {
+  // 依次找 js、jsx、json、vue 后缀的文件
+  moduleFileExtensions: [
+    'js',
+    'jsx',
+    'json',
+    'vue'
+  ],
+  // 使用 vue-jest 帮助测试 .vue 文件
+  // 遇到 css 等转为字符串 不作测试
+  // 遇到 js jsx 等转成 es5
+  transform: {
+    '^.+\\.vue$': 'vue-jest',
+    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+    '^.+\\.jsx?$': 'babel-jest'
+  },
+  // 哪些文件下的内容不需要被转换
+  transformIgnorePatterns: [
+    '/node_modules/'
+  ],
+  // 模块的映射 @ 开头到根目录下寻找
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
+  // snapshot 怎么去存储
+  snapshotSerializers: [
+    'jest-serializer-vue'
+  ],
+  // npm run test:unit 时到哪些目录下去找 测试 文件
+  testMatch: [
+    '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
+  ],
+  // 模拟的浏览器的地址是什么
+  testURL: 'http://localhost/',
+  // 两个帮助使用 jest 的插件 过滤 测试名/文件名 来过滤测试用例
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname'
+  ]
+}
+```
