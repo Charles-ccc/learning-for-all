@@ -1,7 +1,8 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    jest: true
   },
   extends: [
     'plugin:vue/essential',
@@ -18,7 +19,7 @@ module.exports = {
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+        '**/__tests__/unit/**/*.test.{j,t}s?(x)'
       ],
       env: {
         jest: true
