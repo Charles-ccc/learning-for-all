@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TodoList from './containers/TodoList/TodoList'
+import TodoList from './container/TodoList/TodoList'
 
 export default {
   name: 'App',
