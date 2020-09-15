@@ -1,6 +1,38 @@
 #### 仿知乎 RESTful API
 
 ##### 概念向
+  REST
+    Representational State Transfer
+
+    Representational：数据的表现形式
+    State：当前状态或者数据
+    Transfer：数据传输
+
+    REST的六个限制
+    1. 客服端-服务器（Client-Server）
+        关注点分离，提升服务端简单性和客户端移植性
+    2. 无状态（Stateless）
+        用户会话信息保存在客户端，每次请求必须包括所有信息
+    3. 缓存（Cache）
+        所有服务端响应都要标记，减少前后端交互提升性能，提升可靠性和可见性
+    4. 统一接口（Uniform Inteface）
+        接口设计要统一通用，提升了简单性和可见性，接口与实现解耦
+    5. 分层系统（Layered System）
+        每层只知道相邻一层，客户端不知道是和代理还是真是服务器通信
+        其他层：安全层、负载均衡、缓存层等
+    6. 按需代码（Code-On-Demand 可选）
+        客户端可以下载运行服务端传来的代码，简化客户端
+
+    统一接口的限制
+      1. 资源的标识
+      2. 通过表述来操作资源
+      3. 自描述信息
+        媒体类型（application/json、application/xml）
+        HTTP方法
+        是否缓存（Cache Control）
+      4. 超媒体作为应用状态引擎
+        点击链接跳转到另一个网页
+
   路由
     1. 如果没有路由
       所有的请求都做了相同的事情，都会返回相同的结果
