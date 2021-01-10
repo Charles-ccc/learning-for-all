@@ -13,6 +13,7 @@ var intersect = function(nums1, nums2) {
     }
   }
   return newArr
+  // return nums1.filter(n => new Set(nums2).has(n))
 };
 
 console.log(intersect([1,2,2,1], [2,2]))
