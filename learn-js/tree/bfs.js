@@ -27,7 +27,7 @@ const tree = {
 }
 
 const bfs = root => {
-  // 新建队列，并把跟节点入队
+  // 新建队列，并把根节点入队
   const q = [root]
   // 在队列不为空的情况下
   while(q.length > 0) {
