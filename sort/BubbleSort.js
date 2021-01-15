@@ -12,6 +12,7 @@
 //   return arr
 // }
 // bubbleSort([9,8,7,6,5,4,3,2,1])
+
 Array.prototype.bubbleSort = function () {
   for (let i = 0; i < this.length - 1; i ++) {
     for (let j = 0; j < this.length -1 - i; j ++) {
@@ -22,8 +23,7 @@ Array.prototype.bubbleSort = function () {
       }
     }
   }
-  return this
 }
 
 const arr = [9,8,7,6,5,4,3,2,1]
-console.log(arr.bubbleSort())
+arr.bubbleSort()
