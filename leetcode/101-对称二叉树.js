@@ -27,24 +27,10 @@ var isSymmetric = function(root) {
       if ((left && right === null) || (left === null && right)) return false
       if (left && right) {
         if (left.val !== right.val) return false
+        q.push(left.left, right.right)
+        q.push(left.right, right.left)
       }
-      q.push(left.left, right.right)
-      q.push(left.right, right.left)
     }
   }
   return true
 }
-
-
-
-function TreeNode(val, left, right) {
-  this.val = (val===undefined ? 0 : val)
-  this.left = (left===undefined ? null : left)
-  this.right = (right===undefined ? null : right)
-}
-
-const node = new TreeNode(1)
-node.left = new TreeNode(2,3)
-node.right = new TreeNode(3,2)
-
-isSymmetric(node)
