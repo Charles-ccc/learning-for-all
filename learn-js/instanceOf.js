@@ -1,5 +1,5 @@
-const instanceOf = (A, B) => {
-  let p = A
+const instanceOf1 = (A, B) => {
+  let p = A.__proto__
   while (p) {
     if (p === B.prototype) {
       return true
@@ -10,3 +10,5 @@ const instanceOf = (A, B) => {
 }
 
 
+
+const test = instanceOf1([], Array)
