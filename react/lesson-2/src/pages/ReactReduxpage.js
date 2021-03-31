@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
+import { connect } from '../kReactRedux'
 import { bindActionCreators } from 'redux'
 
 // ownProps当前组件本身的 props，谨慎使用

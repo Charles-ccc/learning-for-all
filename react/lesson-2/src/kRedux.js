@@ -15,25 +15,62 @@ export function createStore(reducer, preloadedState, enhancer) {
   let currentState = preloadedState
   let currentReducer = reducer
   let currentListeners = []
+  let nextListeners = currentListeners
+  let isDispatching = false // 提供锁存功能
+
+  function ensureCanMutateNextListeners () {
+    //为每次订阅提供快照备份nextListeners，主要防止在遍历执行currentListeners回调
+    //过程中触发了订阅/取消订阅功能，若直接更新currentListeners将造成当前循环体逻辑混乱
+    //因此所有订阅/取消订阅的listeners都是在nextListeners中存储的，并不会影响当前的dispatch(action)
+    if (nextListeners === currentListeners) {
+        nextListeners = currentListeners.slice()
+    }
+}
 
   function getState () {
     return currentState
   }
 
   function dispatch (action) {
-    // 通过当前reducer计算出新的state
-    currentState = currentReducer(currentState, action)
-    // 监听函数是数组，循环执行
-    for(let i = 0; i < currentListeners.length; i++) {
-      const listener = currentListeners[i]
+    // 调用对应reducer->通知所有listener更新状态
+
+    // 判断在执行dispatch的过程中是否已存在dispatch的执行流
+    // 保证dispatch中对应的reducer不允许有其他dispatch操作
+    if (isDispatching) {
+      throw new Error('Reducers may not dispatch actions.')
+    }try {
+        //根据提供的action，执行根reducer从而更新整颗状态树
+        isDispatching = true
+        // 通过当前reducer计算出新的state
+        currentState = currentReducer(currentState, action)
+    } finally {
+        isDispatching = false
+    }
+    //通知所有之前通过subscribe订阅state更新的回调listener
+    const listeners = currentListeners = nextListeners
+    for(let i = 0; i < listeners.length; i++) {
+      const listener = listeners[i]
       listener()
     }
+    return action
   }
 
   // 订阅，可多次订阅
   function subscribe (listener) {
+    //保证只有第一次执行unsubscribe()才是有效的，只取消注册当前listener
+    let isSubscribed =true
     // 每次订阅把回调放入回调数组中
     currentListeners.push(listener)
+    ensureCanMutateNextListeners()
+    //返回一个取消订阅的函数
+    return function unsubscribe() {
+      //保证当前listener只被取消注册一次
+      if (!isSubscribed) { return }
+      isSubscribed =false
+      ensureCanMutateNextListeners()
+      const index = nextListeners.indexOf(listener)
+      nextListeners.splice(index,1)
+    }
   }
   // // 初始值
   dispatch({type: '@INIT'})
@@ -93,6 +130,7 @@ export function applyMiddleware(...middlewares) {
       getState: store.getState,
       dispatch: (...args) => dispatch(...args)
     }
+    // chain是一个用来缓存中间件扩展功能的队列，通过对middlewares的遍历，队列中的每个元素是middleware(middlewareAPI)的结果
     const chain = middlewares.map(middleware => middleware(middleAPI))
     dispatch = compose(...chain)(store.dispatch)
     return {
@@ -104,6 +142,7 @@ export function applyMiddleware(...middlewares) {
 
 // 将所有的中间件函数串联起来，中间件1执行结束后，作为参数传入中间件2，以此类推，直至全部处理完
 // 最开始接收store.dispatch作为参数，层层改造后被赋值到新的dispatch变量中
+// fn1(fn2(fn3))
 function compose (...funcs) {
   if (funcs.length === 0) {
     return arg => arg
