@@ -30,7 +30,7 @@ export default function AntdFormPage() {
           <Input placeholder='Please enter username'/>
         </FormItem>
         <FormItem name='password' label='密码' rules={[passworRules]}>
-          <Input placeholder='Please enter password'/>
+          <Input placeholder='Please enter password' type='password'/>
         </FormItem>
         <FormItem>
           <Button type='primary' size='large' htmlType='submit'>Submit</Button>
