@@ -19,7 +19,6 @@ export default class Switch extends Component {
                 const path = child.props.path
                 match = path ? matchPath(location.pathname, {...child.props, path}) : context.match
               }
-              console.log('match', match, context.match)
             })
             return match ? React.cloneElement(element, {
               location,
