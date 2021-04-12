@@ -21,19 +21,22 @@ export default class Route extends Component {
           return (
             // match 渲染 children, component, render (function || ReactNode)
             // 不match 渲染 children(funtion) 或者 null
-            match
-              ? children
-                ? typeof children === 'function'
+            <RouterContext.Provider value={props}>
+              {match
+                ? children
+                  ? typeof children === 'function'
+                    ? children(props)
+                    : children
+                  : component
+                    ? React.createElement(component, props)
+                    : render
+                      ? render(props)
+                      : null
+                : typeof children === 'function' 
                   ? children(props)
-                  : children
-                : component
-                  ? React.createElement(component, props)
-                  : render
-                    ? render(props)
-                    : null
-              : typeof children === 'function' 
-                ? children(props)
-                : null
+                  : null
+              }
+            </RouterContext.Provider>
           )
         }
       }

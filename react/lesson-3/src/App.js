@@ -4,10 +4,11 @@ import React from 'react'
 import BrowserRouter from './react-router-dom/BrowserRouter'
 import Route from './react-router-dom/Route'
 import Link from './react-router-dom/Link'
+import Switch from './react-router-dom/Switch'
 import HomePage from './pages/HomePage'
 import UserPage from './pages/UserPage'
-import LoginPage from './pages/LoginPage'
-import PrivateRoute from './pages/PrivateRoute'
+// import LoginPage from './pages/LoginPage'
+// import PrivateRoute from './pages/PrivateRoute'
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
         <Link to="/children">children</Link>
         <Link to="/render">render</Link>
         {/* <Link to='/login'>登陆</Link> */}
-        {/* <Switch> */}
+        <Switch>
           <Route exact path='/' component={HomePage}/>
           <Route path='/user' component={UserPage}/>
           <Route path="/children" children={() => <div>children</div>} />
@@ -32,7 +33,7 @@ function App() {
           {/* <PrivateRoute path='/user' component={UserPage}/>
           <Route path='/login' component={LoginPage}/> */}
           <Route render={() => <div>4040404啦</div>}/>
-        {/* </Switch> */}
+        </Switch>
       </BrowserRouter>
     </div>
   )
