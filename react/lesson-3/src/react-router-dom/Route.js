@@ -7,6 +7,7 @@ export default class Route extends Component {
     return <RouterContext.Consumer>
       {
         context => {
+          // 渲染有优先级
           const { children, component, render, computedMatch, path} = this.props
           // const match = context.location.pathname === path
           const location = this.props.location || context.location
