@@ -15,7 +15,7 @@ const shallowCopy = function(obj) {
   return newObj
 }
 
-// 深拷贝
+// 深拷贝 递归会有爆栈的风险
 const deepCopy = function(obj) {
   if (typeof obj !== 'object') return
   const newObj = obj instanceof Array ? [] : {}

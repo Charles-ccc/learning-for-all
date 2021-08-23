@@ -28,9 +28,9 @@
  */
   Function.prototype.myBind = function (context, args) {
     context = (typeof context === 'object' ? context : window)
-    const ket = Symbol()
+    const key = Symbol()
     context[key] = this
-    let result = context[key](args)
+    const result = context[key](args)
     delete context[key]
     return result
   }
