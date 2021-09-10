@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  const arr = [
+    {id: 1, name: '部门1', pid: 0},
+    {id: 3, name: '部门3', pid: 1},
+    {id: 5, name: '部门5', pid: 3},
+    {id: 2, name: '部门2', pid: 1},
+    {id: 4, name: '部门4', pid: 3}
+  ]
+
+const array2Tree = (arr) => {
+  const result = []
+  const arrMap = {}
+  for (const item of arr) {
+    const id = item.id
+    const pid = item.pid
+
+    if (!arrMap[id]) {
+      arrMap[id] = {
+        children : []
+      }
+    }
+    arrMap[id] = {
+      ...item,
+      children: arrMap[id]['children']
+    }
+
+    const treeItem = arrMap[id]
+    if (pid === 0) {
+      result.push(treeItem)
+    } else {
+      if (!arrMap[id]) {
+        arrMap[id] = {
+          children: []
+        }
+      }
+      arrMap[pid].children.push(treeItem)
+    }
+  }
+  return result
+}
+
+console.log(array2Tree(arr))
+</script>
+</html>
