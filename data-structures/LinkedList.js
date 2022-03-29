@@ -64,3 +64,4 @@ console.log(fruits.display())
 fruits.remove('apple')
 console.log(fruits.display())
 
+// leetcode 链表题目 206，141，21，19，876

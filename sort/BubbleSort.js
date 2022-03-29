@@ -14,10 +14,10 @@
 // bubbleSort([9,8,7,6,5,4,3,2,1])
 
 Array.prototype.bubbleSort = function () {
-  for (let i = 0; i < this.length - 1; i ++) {
-    for (let j = 0; j < this.length -1 - i; j ++) {
-      if (this[j] > this[j + 1]) {
-        const temp = this[j]
+  for (let i = 0; i < this.length - 1; i ++) { 
+    for (let j = 0; j < this.length -1 - i; j ++) { // - i是每轮结束后，排序区间会变小
+      if (this[j] > this[j + 1]) {// 获取相邻元素
+        const temp = this[j] // 交换相邻元素
         this[j] = this[j + 1]
         this[j + 1] = temp
       }

@@ -16,18 +16,18 @@
 // console.log(insertSort([9,8,7,6,5,4,3,2,1]))
 
 Array.prototype.insertSort = function () {
-  for (let i = 1; i < this.length; i ++) {
+  for (let i = 1; i < this.length; i ++) { // 从第二个数往前比
     const temp = this[i]
     let j = i
     while (j > 0) {
-      if (this[j - 1] > temp) {
+      if (this[j - 1] > temp) { // 第二个数和前面的比
         this[j] = this[j - 1]
       } else {
         break
       }
-      j --
+      j -- // 循环内 j 递减
     }
-    this[j] = temp
+    this[j] = temp // 要插入的位置
   }
 }
 
