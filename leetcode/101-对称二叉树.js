@@ -4,21 +4,10 @@
  */
 var isSymmetric = function(root) {
   if (!root) return true
-  /** 递归写法 */
-  // const check = (left, right) => {
-  //   if (left == null && right == null) return true
-  //   if (left && right) {
-  //     return left.val === right.val 
-  //       && check(left.left, right.right) 
-  //       && check(left.right, right.left)
-  //   }
-  //   return false
-  // }
-  // return check(root.left, root.right)
-
   const isMirror = (l, r) => {
     if (!l && !r) return true
-    if (l && r && l.val === r.val &&
+    if (l && r && 
+      l.val === r.val &&
       isMirror(l.left, r.right) &&
       isMirror(l.right, r.left)
     ) {

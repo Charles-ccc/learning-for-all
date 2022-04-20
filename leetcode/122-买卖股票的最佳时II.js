@@ -1,24 +1,20 @@
 /**
  * @param {number[]} prices
  * @return {number}
+ * 第二天才会有利润，所以利润序列比股票少一天
+ * 把最终利润分解为每天的利润
+ * 正利润区间就是股票买卖的区间
+ * 局部最优：收集每天的正利润
+ * 全局最优：求得最大利润
  */
 var maxProfit = function(prices) {
-  // let money = 0
-  // let buy = prices[0]
-  // for (let p of prices) {
-  //   if (p > buy) {
-  //     money += p - buy 
-  //   }
-  //   buy = p
-  // }
-  // return money
-
   /** 贪心算法 */
   let profit = 0
-  for (let i = 0; i < prices.length; i ++) {
-    if (prices[i] > prices[i - 1]) {
-      profit += prices[i] - prices[i - 1]
-    }
+  for (let i = 0; i < prices.length; i++) {
+    // if (prices[i] > prices[i - 1]) {
+    //   profit += prices[i] - prices[i - 1]
+    // }
+    profit += Math.max(prices[i] - prices[i - 1], 0)
   }
   return profit
 };
