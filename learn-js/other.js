@@ -250,3 +250,51 @@ function throttle (fn, delay = 100) {
     }, delay)
   }
 }
+/** 数组去重 */
+function distinct(arr) {
+  return arr.filter((item, index) => {
+    // return arr.indexOf(item) === index
+    return arr.includes(item)
+  })
+}
+
+/** reduce
+ * total 初始值，或计算结束后的返回值
+ * currentValue 当前元素
+ * currentIndex 当前元素索引
+ * arr 当前元素所属的数组对象
+ * initialValue 传递给函数的初始值，相当于total的初始值
+ */
+array.reduce(function(total, currentValue, currentIndex, arr), initalValue)
+
+// 数组转对象
+const streams = [{name: '技术', id: 1}, {name: '设计', id: 2}];
+const obj = streams.reduce((a, c) => {
+  a[c.id] = c
+  return a
+} , {});
+
+// 数组去重
+const newArr = arr.reduce((prev, cur) => {
+  prev.indexOf(cur) === -1 && prev.push(cur)
+}, [])
+
+// 对象数组去重
+const responseList = [
+  { id: 1, a: 1 },
+  { id: 2, a: 2 },
+  { id: 3, a: 3 },
+  { id: 1, a: 4 },
+];
+const resultArr = responseList.reduce((acc, cur) => {
+  const ids = acc.map(item => item.id)
+  return ids.includes(cur.id) ? acc : [...acc, cur]
+}, [])
+
+// 字符串中字母出现的次数
+const str = 'sfhjasfjgfasjuwqrqadqeiqsajsdaiwqdaklldflas-cmxzmnha'
+
+const res = str.split('').reduce((prev, cur) => {
+  prev[cur] ? prev[cur]++ : prev[cur] = 1
+  return prev
+}, {})

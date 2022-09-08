@@ -1,5 +1,6 @@
 /** 冒泡排序 */
 // function bubbleSort (arr) {
+  // if (!arr.length) return
 //   for (let i=0; i<arr.length-1; i++) {
 //     for (let j=0; j<arr.length-1-i; j++) {
 //       if (arr[j] > arr[j+1]) {
@@ -14,6 +15,7 @@
 // bubbleSort([9,8,7,6,5,4,3,2,1])
 
 Array.prototype.bubbleSort = function () {
+  if (!this.length) return
   for (let i = 0; i < this.length - 1; i ++) { 
     for (let j = 0; j < this.length -1 - i; j ++) { // - i是每轮结束后，排序区间会变小
       if (this[j] > this[j + 1]) {// 获取相邻元素
