@@ -298,3 +298,25 @@ const res = str.split('').reduce((prev, cur) => {
   prev[cur] ? prev[cur]++ : prev[cur] = 1
   return prev
 }, {})
+
+
+// 数字转千分位
+function format_with_array(number) {
+  const arr = (number + '').split(.)
+  // 整数
+  const int = arr[0].split('')
+  // 小数
+  const fraction = arr[1] || ''
+  const r = ''
+  const len = int.length
+  int.reverse().forEach((v, i) => (
+    // 非第一位，且位值是3的倍数
+    if (i !== 0 && i % 3 === 0) {
+      r = v + ',' + r
+    } else {
+      r = v + r
+    }
+  ))
+  // 整数和小数部分拼接
+  return r + (!!fraction ? '.' + fraction : '')
+}

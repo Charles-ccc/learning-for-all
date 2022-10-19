@@ -1,11 +1,11 @@
-function debounce (fn) {
+function debounce (fn, wait=100) {
   let timer = null
   return function () {
-    clearTimeout(timer)
+    timer && clearTimeout(timer)
     timer = setTimeout(() => {
       // 箭头函数，this指向input；普通函数，this指向window
       fn.apply(this, arguments)
-    }, 1000)
+    }, wait)
   }
 }
 

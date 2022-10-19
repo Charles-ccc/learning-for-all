@@ -15,3 +15,14 @@ function sayHi(e) {
 }
 
 window.addEventListener('resize', throttle(sayHi))
+
+const throttle2 = (fn, wait=100) => {
+  let lastTime = 0
+  return function (..args) {
+    let now = +new Date()
+    if (now - lastTime > wait) {
+      lastTime = now
+      fn.apply(this, args)
+    }
+  }
+}
