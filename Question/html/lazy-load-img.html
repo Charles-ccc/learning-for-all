@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      img {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="demo">
+      <img
+        data-src="https://www.shutterstock.com/zh/video/clip-1079039945-solar-power-plant-windmills-aerial-view-renewable"
+        alt="1"
+      />
+      <img
+        data-src="https://www.shutterstock.com/zh/video/clip-1089199011-aerial-footage-bombing-kyiv-house-explosions-ukraine"
+        alt="2"
+      />
+      <img
+        data-src="https://www.shutterstock.com/zh/video/clip-1066836493-big-city-businessman-uses-smartphone-stands-on"
+        alt="3"
+      />
+      <img
+        data-src="https://www.shutterstock.com/zh/video/clip-1077627401-aerial-car-factory-3d-concept-automated-robot"
+        alt="4"
+      />
+      <img
+        data-src="https://www.shutterstock.com/zh/video/clip-1053312533-aerial-shot-expensive-luxury-sport-car-suv"
+        alt="5"
+      />
+    </div>
+  </body>
+  <!-- <script>
+    const demo = document.querySelectorAll("img");
+    function lazy() {
+      for (let elem of demo) {
+        if (
+          elem.getBoundingClientRect().top <
+          document.documentElement.clientHeight + 100
+        ) {
+          if (elem.dataset.src && elem.src == "") {
+            elem.src = elem.dataset.src;
+          }
+        }
+      }
+    }
+    function throttle(t, fn) {
+      let time;
+      return function () {
+        if (!time) {
+          time = setTimeout(() => {
+            time = null;
+            fn();
+          }, t);
+        }
+      };
+    }
+    lazy();
+    window.addEventListener("scroll", throttle(500, lazy));
+  </script> -->
+  <script>
+    const images = document.querySelectorAll('img')
+    const observer = new IntersectionObserver((changes) => {
+      console.log('12345')
+      changes.forEach(change => {
+        if (change.isIntersecting) {
+          const img = change.target
+          img.src = img.dataset.src
+          observer.unobserve(img)
+        }
+      })
+    })
+
+    images.forEach(img => observer.observe(img))
+  </script>
+</html>
