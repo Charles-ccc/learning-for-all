@@ -26,7 +26,7 @@
  * @param context 上下文的this对象
  * @param args 动态参数
  */
-  Function.prototype.myBind = function (context, args) {
+  Function.prototype.myApply = function (context, args) {
     context = (typeof context === 'object' ? context : window)
     const key = Symbol()
     context[key] = this

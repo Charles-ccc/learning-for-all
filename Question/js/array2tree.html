@@ -13,12 +13,12 @@
   const arr = [
     {id: 1, name: '部门1', pid: 0},
     {id: 3, name: '部门3', pid: 1},
-    {id: 5, name: '部门5', pid: 3},
-    {id: 2, name: '部门2', pid: 1},
-    {id: 4, name: '部门4', pid: 3}
+    [{id: 5, name: '部门5', pid: 3},
+    [{id: 2, name: '部门2', pid: 1},
+    {id: 4, name: '部门4', pid: 3}]]
   ]
 
-const array2Tree = (arr) => {
+const array2TreeV1 = (arr) => {
   const result = []
   const arrMap = {}
   for (const item of arr) {
@@ -50,6 +50,50 @@ const array2Tree = (arr) => {
   return result
 }
 
-console.log(array2Tree(arr))
+// 递归
+const array2TreeV2 = (arr, pid = 0) => {
+  let newArr = []
+  arr.forEach(item => { // 遍历5次
+    if (item.pid === pid) {
+      const children = array2Tree2(arr, item.id) // 递归调用，每次调用都会遍历5次
+      if (children.length > 0) {
+        item.children = children
+      }
+      newArr.push(item)
+    }
+  })
+  return newArr
+}
+
+const array2TreeV3 = (arr) => {
+  arr.forEach(item => {
+    if (item.pid !== 0) { // 如果pid不是0，则需要找到它的父级
+      arr.forEach(item2 => {
+        if (item2.id === item.pid) { // 找到它的父级
+          if (!item2.children) {
+            item2.children = []
+          }
+          item2.children.push(item)
+        }
+      })
+    }
+  })
+  return arr.filter(item => item.pid === 0) // 返回所有根节点
+}
+
+
+const arrayToTreeV4 = (arr, pid = 0) => {
+  return arr.filter(item => item.pid === pid)
+    .map(item => (
+      {...item,
+        children: arrayToTreeV3(arr, item.id)
+      }))
+}
+
+
+
+
+// console.log(array2Tree(arr))
+console.log(array2TreeV2(arr))
 </script>
 </html>
